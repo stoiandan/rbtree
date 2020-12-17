@@ -10,3 +10,43 @@ func TestInsertingToRight(t *testing.T) {
 		t.Error("Inserting into tree fails")
 	}
 }
+
+func TestStringOfNode(t *testing.T) {
+	root := NewNode(5)
+	root.InsertData(1)
+	root.InsertData(12)
+	root.InsertData(3)
+	root.InsertData(10)
+	root.InsertData(6)
+	root.InsertData(-6)
+	expected := "-6 1 3 5 6 10 12"
+	if root.String() != expected {
+		t.Errorf("The print was not correct!\nExpected:\t%v\nGot:     \t%v", expected, root.String())
+	}
+}
+
+func TestStringOfNodeAndInsertDataList(t *testing.T) {
+	root := NewNode(5)
+	root.InsertDataList([]int{-6, 5, 3, 9, 8, 6, -9, 3, 2, 5, 8})
+
+	expected := "-9 -6 2 3 3 5 5 5 6 8 8 9"
+	if root.String() != expected {
+		t.Errorf("The print was not correct!\nExpected:\t%v\nGot:     \t%v", expected, root.String())
+	}
+}
+
+func TestPrettyDrawOfNodeAndInsertDataList(t *testing.T) {
+	root := NewNode(5)
+	root.InsertDataList([]int{-6, 5, 3, 9, 8, 6, -9, 3, 2, 5, 8})
+	//          5
+	//   /             \
+	//  -6	              5
+	//  / \               \
+	// -9  3              9
+	//    /\             /
+	//   2  3           8
+	//                 / \
+	// 	           6   8
+	// 	          /
+	// 	         5
+}

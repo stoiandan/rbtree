@@ -1,5 +1,7 @@
 package models
 
+import "fmt"
+
 //Node represents a binary tree node
 type Node struct {
 	Left  *Node
@@ -25,6 +27,12 @@ func (n *Node) InsertData(data int) {
 	}
 }
 
+func (n *Node) InsertDataList(datalist []int) {
+	for _, data := range datalist {
+		n.InsertData(data)
+	}
+}
+
 //NewNode creates a treee node
 func NewNode(data int) *Node {
 	return &Node{
@@ -33,4 +41,21 @@ func NewNode(data int) *Node {
 		Right: nil,
 		color: RED,
 	}
+}
+
+func (n Node) String() string {
+	str := ""
+	if n.Left != nil {
+		str = fmt.Sprintf("%v %v", n.Left.String(), n.Data)
+	} else {
+		str = fmt.Sprint(n.Data)
+	}
+	if n.Right != nil {
+		str = fmt.Sprintf("%v %v", str, n.Right.String())
+	}
+	return str
+}
+
+func (n Node) PrettyDraw() string {
+	return "not done"
 }
