@@ -7,10 +7,11 @@ import (
 
 //Node represents a binary tree node
 type Node struct {
-	Left  *Node
-	Right *Node
-	Data  int
-	color color
+	Left   *Node
+	Right  *Node
+	Parent *Node
+	Data   int
+	color  color
 }
 
 //InsertData adds data as a node into the subtree
@@ -20,12 +21,14 @@ func (n *Node) InsertData(data int) {
 			n.Right.InsertData(data)
 		} else {
 			n.Right = NewNode(data)
+			n.Right.Parent = n
 		}
 	} else {
 		if n.Left != nil {
 			n.Left.InsertData(data)
 		} else {
 			n.Left = NewNode(data)
+			n.Left.Parent = n
 		}
 	}
 }
@@ -39,11 +42,60 @@ func (n *Node) InsertDataList(datalist []int) {
 //NewNode creates a treee node
 func NewNode(data int) *Node {
 	return &Node{
-		Data:  data,
-		Left:  nil,
-		Right: nil,
-		color: RED,
+		Data:   data,
+		Left:   nil,
+		Parent: nil,
+		Right:  nil,
+		color:  RED,
 	}
+}
+
+func (n *Node) leftRotate() {
+	pivot := n.Right
+	if pivot == nil {
+		return
+	}
+
+	pivot.Parent = n.Parent
+	if n.Parent != nil {
+		if n.Parent.Right == n {
+			n.Parent.Right = pivot
+		} else {
+			n.Parent.Left = pivot
+		}
+	}
+
+	n.Right = pivot.Left
+	if pivot.Left != nil {
+		pivot.Left.Parent = n
+	}
+
+	pivot.Left = n
+	n.Parent = pivot
+}
+
+func (n *Node) rightRotate() {
+	pivot := n.Left
+	if pivot == nil {
+		return
+	}
+
+	pivot.Parent = n.Parent
+	if n.Parent != nil {
+		if n.Parent.Right == n {
+			n.Parent.Right = pivot
+		} else {
+			n.Parent.Left = pivot
+		}
+	}
+
+	n.Left = pivot.Right
+	if pivot.Right != nil {
+		pivot.Right.Parent = n
+	}
+
+	n.Parent = pivot
+	pivot.Right = n
 }
 
 func (n Node) String() string {
