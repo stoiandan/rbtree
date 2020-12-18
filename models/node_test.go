@@ -1,6 +1,9 @@
 package models
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 func TestInsertingToRight(t *testing.T) {
 	root := NewNode(5)
@@ -32,6 +35,16 @@ func TestStringOfNodeAndInsertDataList(t *testing.T) {
 	expected := "-9 -6 2 3 3 5 5 5 6 8 8 9"
 	if root.String() != expected {
 		t.Errorf("The print was not correct!\nExpected:\t%v\nGot:     \t%v", expected, root.String())
+	}
+}
+func TestArrayWithDepthOfNodeAndInsertDataList(t *testing.T) {
+	root := NewNode(5)
+	root.InsertDataList([]int{-6, 5, 3, 9, 8, 6, -9, 3, 2, 5, 8})
+
+	expected := "[-9(4) -6(2) 2(10) 3(5) 3(11) 5(1) 5(3) 5(56) 6(28) 8(14) 8(29) 9(7)]"
+	got := root.ArrayWithDepth()
+	if fmt.Sprintf("%v", got) != expected {
+		t.Errorf("The bubble print was not correct!\nExpected:\t%v\nGot:     \t%v", expected, got)
 	}
 }
 

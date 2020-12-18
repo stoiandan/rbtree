@@ -1,6 +1,9 @@
 package models
 
-import "fmt"
+import (
+	"fmt"
+	"rbtree/utils"
+)
 
 //Node represents a binary tree node
 type Node struct {
@@ -56,6 +59,25 @@ func (n Node) String() string {
 	return str
 }
 
+// ArrayWithDepth helper method that returns the data sorted with the id number in paranthesis, root has 1, left has 2 and so on and so forth, missing nodes are still increasing the id
+func (n Node) ArrayWithDepth() []string {
+	return n.privateArrayWithDepth("1")
+}
+
+// privateArrayWithDepth private helper method used for ArrayWithDepth
+func (n Node) privateArrayWithDepth(parentDepth string) []string {
+	left := []string{}
+	right := []string{}
+	if n.Left != nil {
+		left = n.Left.privateArrayWithDepth(parentDepth + "0")
+	}
+	if n.Right != nil {
+		right = n.Right.privateArrayWithDepth(parentDepth + "1")
+	}
+	return append(append(left, fmt.Sprintf("%v(%v)", n.Data, utils.ConvertBinaryToDecimal(parentDepth))), right...)
+}
+
 func (n Node) PrettyDraw() string {
+	n.ArrayWithDepth()
 	return "not done"
 }
