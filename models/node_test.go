@@ -48,6 +48,37 @@ func TestArrayWithDepthOfNodeAndInsertDataList(t *testing.T) {
 	}
 }
 
+//not yet correct expected values
+func TestLeftRotate(t *testing.T) {
+	errorMessages := ""
+
+	errorMessages += testLeftRotate(
+		5,
+		[]int{6, 7, 8, 9, 10},
+		"[5(1) 6(3) 7(56) 8(28) 9(14) 10(29)]",
+	)
+	errorMessages += testLeftRotate(
+		5,
+		[]int{-6, 5, 3, 9, 8, 6, -9, 3, 2, 5, 8},
+		"[-9(4) -6(2) 2(10) 3(5) 3(11) 5(1) 5(3) 5(56) 6(28) 8(14) 8(29) 9(7)]",
+	)
+
+	if errorMessages != "" {
+		t.Error(errorMessages)
+	}
+}
+
+func testLeftRotate(rootData int, dataList []int, expected string) string {
+	root := NewNode(rootData)
+	root.InsertDataList(dataList)
+	root.leftRotate()
+	got := fmt.Sprintf("%v", root.ArrayWithDepth())
+	if got != expected {
+		return fmt.Sprintf("Left Rotate failed!\nExpected:\t%v\nGot:     \t%v\n\n", expected, got)
+	}
+	return ""
+}
+
 func TestPrettyDrawOfNodeAndInsertDataList(t *testing.T) {
 	root := NewNode(5)
 	root.InsertDataList([]int{-6, 5, 3, 9, 8, 6, -9, 3, 2, 5, 8})
